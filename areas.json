@@ -1,0 +1,76 @@
+{
+  "track": "Area Requirements",
+  "description": "At the upper level, students take five (5) CMSC 400 level courses from at least three different areas (see below) with no more than three courses in a given area. An additional two (2) CMSC electives, totaling 6 credits, are also required. If students take more than three courses from an area, the additional course(s) will be counted as upper level computer science electives.",
+  "areas": [
+    {
+      "area": 1,
+      "name": "Systems",
+      "courses": [
+        "CMSC411",
+        "CMSC412",
+        "CMSC414",
+        "CMSC416",
+        "CMSC417",
+        "CMSC498B",
+        "CMSC498C",
+        "CMSC498I",
+        "CMSC498K",
+        "CMSC498X"
+      ]
+    },
+    {
+      "area": 2,
+      "name": "Information Processing",
+      "courses": [
+        "CMSC420",
+        "CMSC421",
+        "CMSC422",
+        "CMSC423",
+        "CMSC424",
+        "CMSC426",
+        "CMSC427",
+        "CMSC470",
+        "CMSC471",
+        "CMSC472",
+        "CMSC498D",
+        "CMSC498E",
+        "CMSC498F",
+        "CMSC498V",
+        "CMSC498Y",
+        "CMSC498Z"
+      ]
+    },
+    {
+      "area": 3,
+      "name": "Software Engineering and Programming Languages",
+      "courses": [
+        "CMSC430",
+        "CMSC433",
+        "CMSC434",
+        "CMSC435",
+        "CMSC436",
+        "CMSC471"
+      ]
+    },
+    {
+      "area": 4,
+      "name": "Theory",
+      "courses": [
+        "CMSC451",
+        "CMSC452",
+        "CMSC454",
+        "CMSC456",
+        "CMSC457",
+        "CMSC474"
+      ]
+    },
+    {
+      "area": 5,
+      "name": "Numerical Analysis",
+      "courses": [
+        "CMSC460",
+        "CMSC466"
+      ]
+    }
+  ]
+}

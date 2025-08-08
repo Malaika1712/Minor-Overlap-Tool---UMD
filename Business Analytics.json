@@ -1,0 +1,26 @@
+{
+  "minor": "Business Analytics",
+  "requirements": [
+    {
+      "name": "Required Courses",
+      "type": "all",
+      "options": ["BMGT402", "BMGT430", "BMGT431"],
+      "category": "Core"
+    },
+    {
+      "name": "Electives (Choose 3–6 credits)",
+      "type": "minCredits",
+      "minCredits": 3,
+      "maxCredits": 6,
+      "options": ["BMGT302", "BMGT332", "BMGT385", "BMGT400", "BMGT401", "BMGT404"],
+      "category": "Electives Group A"
+    },
+    {
+      "name": "Electives (Max 3 credits)",
+      "type": "maxCredits",
+      "maxCredits": 3,
+      "options": ["BMGT347", "BMGT394", "BMGT447", "BMGT484", "CMSC422", "ECON414", "ENCE402", "ENEE436", "INST414", "STAT430"],
+      "category": "Electives Group B"
+    }
+  ]
+}

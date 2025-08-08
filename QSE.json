@@ -1,0 +1,38 @@
+{
+  "track": "Quantum Science and Engineering",
+  "requirements": [
+    {
+      "name": "Math Foundation",
+      "type": "chooseOne",
+      "options": ["MATH240", "MATH243", "MATH341", "MATH461", "ENEE290", "PHYS274"],
+      "category": "Math"
+    },
+    {
+      "name": "Intro to Quantum",
+      "type": "chooseOne",
+      "options": ["PHYS401", "ENEE491", "PHYS360"],
+      "category": "Quantum"
+    },
+    {
+      "name": "Core Technical Course",
+      "type": "chooseOne",
+      "options": ["ENEE489B", "PHYS467", "ENMA436", "ENME434", "PHYS457", "CMSC457"],
+      "category": "Core"
+    },
+    {
+      "name": "Lab Requirement",
+      "type": "chooseOne",
+      "options": ["ENEE493", "CMSC437"],
+      "category": "Lab"
+    },
+    {
+      "name": "Elective Requirement",
+      "type": "chooseOne",
+      "options": [
+        "ENEE439Q", "ENEE489W", "ENMA481", "ENEE489B", "PHYS467", "ENMA436",
+        "ENME434", "PHYS457", "CMSC457", "ENEE493", "CMSC437"
+      ],
+      "category": "Elective"
+    }
+  ]
+}

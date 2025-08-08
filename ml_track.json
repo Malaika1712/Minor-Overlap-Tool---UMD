@@ -1,0 +1,67 @@
+{
+  "track": "Machine Learning",
+  "requirements": [
+    {
+      "name": "Math Foundations",
+      "type": "all",
+      "options": ["MATH140", "MATH141"],
+      "category": "Math Core"
+    },
+    {
+      "name": "Computer Science Foundations",
+      "type": "all",
+      "options": ["CMSC131", "CMSC133", "CMSC132", "CMSC216", "CMSC250", "CMSC330", "CMSC351"],
+      "category": "CS Core"
+    },
+    {
+      "name": "Statistics Requirement",
+      "type": "chooseOne",
+      "options": ["STAT400", "STAT401", "STAT405", "STAT410", "STAT411", "STAT420", "STAT430", "STAT440", "STAT450", "STAT470"],
+      "category": "Statistics"
+    },
+    {
+      "name": "Linear Algebra Requirement",
+      "type": "chooseOne",
+      "options": ["MATH240", "MATH341", "MATH461"],
+      "category": "Math"
+    },
+    {
+      "name": "ML Specialization Core",
+      "type": "all",
+      "options": ["CMSC320", "CMSC421", "CMSC422"],
+      "category": "ML Core"
+    },
+    {
+      "name": "ML Specialization Electives",
+      "type": "chooseN",
+      "count": 2,
+      "options": [
+        "CMSC426", "CMSC460", "AMSC460", "CMSC466", "AMSC466", "MATH401",
+        "CMSC470", "CMSC472", "CMSC473", "CMSC474", "CMSC476"
+      ],
+      "category": "ML Electives"
+    },
+    {
+      "name": "Upper-Level Area Distribution",
+      "type": "areaDistribution",
+      "source": "ml_upper_level_areas.json",
+      "rules": {
+        "total_courses": 5,
+        "min_distinct_areas": 3,
+        "max_per_area": 3
+      },
+      "category": "Area Distribution"
+    },
+    {
+      "name": "Additional CMSC Electives",
+      "type": "creditMinimum",
+      "credits": 6,
+      "filters": {
+        "prefix": "CMSC",
+        "level": 300,
+        "excluded": ["CMSC320", "CMSC330", "CMSC351", "CMSC421", "CMSC422"]
+      },
+      "category": "Electives"
+    }
+  ]
+}

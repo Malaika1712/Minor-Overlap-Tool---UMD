@@ -1,0 +1,32 @@
+{
+  "track": "Cybersecurity",
+  "requirements": [
+    {
+      "name": "Core Courses",
+      "type": "all",
+      "options": ["CMSC414", "CMSC456"],
+      "category": "Core"
+    },
+    {
+      "name": "Cybersecurity Electives",
+      "type": "chooseN",
+      "options": [
+        "CMSC411", "CMSC412", "CMSC417",
+        "CMSC430", "CMSC433", "CMSC451"
+      ],
+      "count": 4,
+      "category": "Elective"
+    },
+    {
+      "name": "Upper-Level CMSC Elective",
+      "type": "creditMinimum",
+      "credits": 3,
+      "filters": {
+        "prefix": "CMSC",
+        "level": 300,
+        "excluded": ["CMSC330", "CMSC351"]
+      },
+      "category": "Upper-Level Elective"
+    }
+  ]
+}
