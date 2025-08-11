@@ -1,0 +1,48 @@
+{
+  "track": "General",
+  "requirements": [
+    {
+      "name": "Core Courses",
+      "type": "all",
+      "options": [
+        "CMSC131", "CMSC132", "CMSC216", "CMSC250",
+        "CMSC330", "CMSC351"
+      ],
+      "category": "Core"
+    },
+    {
+      "name": "Upper-Level Area Requirements",
+      "type": "areaDistribution",
+      "source": "areas.json",
+      "rules": {
+        "total_courses": 5,
+        "min_distinct_areas": 3,
+        "max_per_area": 3
+      },
+      "category": "Area Distribution"
+    },
+    {
+      "name": "Upper-Level CMSC Electives",
+      "type": "creditMinimum",
+      "credits": 6,
+      "filters": {
+        "prefix": "CMSC",
+        "level": 400,
+        "excluded": []
+      },
+      "category": "Electives",
+      "notes": "Courses beyond the 3-per-area limit count toward this elective requirement"
+    },
+    {
+      "name": "General Track Enrichment Electives",
+      "type": "chooseN",
+      "count": 2,
+      "options": [
+        "CMSC320", "CMSC335", "CMSC388", "CMSC389", "CMSC395", "CMSC396",
+        "CMSC401", "CMSC425", "CMSC473", "CMSC475", "CMSC476", "CMSC477",
+        "CMSC488A", "CMSC498", "CMSC498A", "CMSC499A"
+      ],
+      "category": "General Elective"
+    }
+  ]
+}

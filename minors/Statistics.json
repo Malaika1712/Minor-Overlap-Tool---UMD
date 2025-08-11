@@ -1,0 +1,36 @@
+{
+  "track": "Statistics",
+  "requirements": [
+    {
+      "name": "Math Prerequisite",
+      "type": "chooseOne",
+      "options": ["MATH241", "MATH340"],
+      "category": "Math"
+    },
+    {
+      "name": "Probability & Inference Sequence",
+      "type": "chooseOneGroup",
+      "options": [
+        ["STAT400", "STAT401"],
+        ["STAT410", "STAT420"],
+        ["STAT410", "STAT401"]
+      ],
+      "category": "Probability"
+    },
+    {
+      "name": "Core Statistics Course",
+      "type": "all",
+      "options": ["STAT430"],
+      "category": "Core"
+    },
+    {
+      "name": "Advanced Elective",
+      "type": "chooseOne",
+      "options": [
+        "STAT422", "STAT426", "STAT440", "STAT470",
+        "MATH424", "STAT401", "STAT410", "STAT420"
+      ],
+      "category": "Elective"
+    }
+  ]
+}
