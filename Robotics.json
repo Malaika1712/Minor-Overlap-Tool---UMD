@@ -1,0 +1,30 @@
+{
+  "track": "Robotics/Systems",
+  "requirements": [
+    {
+      "name": "Core Requirements",
+      "type": "all",
+      "options": ["ENME480", "ENAE450", "ENEE467", "CMSC477"],
+      "category": "Core"
+    },
+    {
+      "name": "Math Prerequisite",
+      "type": "chooseOne",
+      "options": ["MATH240", "MATH341"],
+      "category": "Math"
+    },
+    {
+      "name": "Technical Electives",
+      "type": "chooseN",
+      "count": 2,
+      "options": [
+        "ENES467", "ENME400", "ENME410", "ENME461", "ENME413", "ENME444", 
+        "ENME476", "ENME441", "ENME467", "ENME435", "CMSC421", "CMSC422", 
+        "CMSC426", "CMSC427", "CMSC451", "CMSC498E", "ENEE440", "ENEE460", 
+        "ENEE461", "ENEE425", "ENEE408I", "ENAE380", "ENAE441", "ENAE403", 
+        "ENAE432", "ENAE488O"
+      ],
+      "category": "Electives"
+    }
+  ]
+}

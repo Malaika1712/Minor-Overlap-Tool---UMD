@@ -1,0 +1,47 @@
+{
+  "minor": "Mathematics",
+  "requirements": [
+    {
+      "name": "Required Courses",
+      "type": "all",
+      "options": ["MATH241", "MATH340"],
+      "category": "Core"
+    },
+    {
+      "name": "Linear Algebra Requirement",
+      "type": "chooseOne",
+      "options": ["MATH240", "MATH461", "MATH341"],
+      "category": "Linear Algebra"
+    },
+    {
+      "name": "MATH310 Requirement",
+      "type": "all",
+      "options": ["MATH310"],
+      "category": "Core"
+    },
+    {
+      "name": "Theoretical Math Requirement",
+      "type": "chooseOne",
+      "options": ["MATH403", "MATH405", "MATH410"],
+      "category": "Theoretical"
+    },
+    {
+      "name": "Algebra Requirement",
+      "type": "chooseOne",
+      "options": ["MATH401", "MATH402", "MATH403", "MATH405", "MATH406", "MATH423"],
+      "category": "Algebra"
+    },
+    {
+      "name": "Analysis Requirement",
+      "type": "chooseOne",
+      "options": ["MATH410", "MATH416", "MATH462", "MATH463", "MATH464"],
+      "category": "Analysis"
+    },
+    {
+      "name": "Probability Requirement",
+      "type": "chooseOne",
+      "options": ["STAT400", "STAT410"],
+      "category": "Probability"
+    }
+  ]
+}

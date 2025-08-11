@@ -1,0 +1,55 @@
+{
+  "track_name": "Data Science Track",
+  "required_courses": [
+    "STAT 400",
+    "CMSC 320",
+    "CMSC 422",
+    "CMSC 424"
+  ],
+  "math_requirement": {
+    "description": "Choose one course from the following linear algebra options",
+    "courses_needed": 1,
+    "available_courses": [
+      "MATH 240",
+      "MATH 461",
+      "MATH 341"
+    ]
+  },
+  "elective_group_1": {
+    "description": "Choose one course from the following list",
+    "courses_needed": 1,
+    "available_courses": [
+      "CMSC 420",
+      "CMSC 421",
+      "CMSC 423",
+      "CMSC 425",
+      "CMSC 426",
+      "CMSC 427",
+      "CMSC 470"
+    ]
+  },
+  "elective_group_2": {
+    "description": "Choose one course from the following algorithms list",
+    "courses_needed": 1,
+    "available_courses": [
+      "CMSC 451",
+      "CMSC 454",
+      "CMSC 460"
+    ]
+  },
+  "elective_group_3": {
+    "description": "Choose two courses from the following systems list",
+    "courses_needed": 2,
+    "available_courses": [
+      "CMSC 411",
+      "CMSC 412",
+      "CMSC 414",
+      "CMSC 417",
+      "CMSC 430",
+      "CMSC 433",
+      "CMSC 434",
+      "CMSC 435"
+    ]
+  }
+}
+
