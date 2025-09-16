@@ -5,7 +5,7 @@
       "name": "Core Requirements",
       "type": "all",
       "options": ["ENME480", "ENAE450", "ENEE467", "CMSC477"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Math Prerequisite",
@@ -14,7 +14,7 @@
       "category": "Math"
     },
     {
-      "name": "Technical Electives",
+      "name": "TECHNICAL ELECTIVES",
       "type": "chooseN",
       "count": 2,
       "options": [
@@ -24,7 +24,7 @@
         "ENEE461", "ENEE425", "ENEE408I", "ENAE380", "ENAE441", "ENAE403", 
         "ENAE432", "ENAE488O"
       ],
-      "category": "Electives"
+      "category": "TECHNICAL ELECTIVE"
     }
   ]
 }

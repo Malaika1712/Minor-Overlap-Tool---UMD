@@ -5,12 +5,12 @@
       "name": "Core Requirements",
       "type": "all",
       "options": ["ENME480", "ENAE450", "ENEE467", "CMSC477"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Math Prerequisite",
       "type": "chooseOne",
-      "options": ["MATH240", "MATH341"],
+      "options": ["MATH240", "MATH461"],
       "category": "Math"
     },
     {

@@ -17,7 +17,7 @@
       "name": "Core Technical Course",
       "type": "chooseOne",
       "options": ["ENEE489B", "PHYS467", "ENMA436", "ENME434", "PHYS457", "CMSC457"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Lab Requirement",
@@ -29,9 +29,7 @@
       "name": "Elective Requirement",
       "type": "chooseOne",
       "options": [
-        "ENEE439Q", "ENEE489W", "ENMA481", "ENEE489B", "PHYS467", "ENMA436",
-        "ENME434", "PHYS457", "CMSC457", "ENEE493", "CMSC437"
-      ],
+        "ENEE439Q", "ENEE489W", "ENMA481"],
       "category": "Elective"
     }
   ]

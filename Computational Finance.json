@@ -5,7 +5,7 @@
       "name": "Required Courses",
       "type": "all",
       "options": ["BUFN400", "CMSC320", "BUFN403"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Finance Elective",

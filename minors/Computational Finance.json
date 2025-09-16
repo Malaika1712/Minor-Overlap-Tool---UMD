@@ -5,7 +5,7 @@
       "name": "Required Courses",
       "type": "all",
       "options": ["BUFN400", "CMSC320", "BUFN403"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Finance Elective",
@@ -14,10 +14,10 @@
       "category": "Finance Elective"
     },
     {
-      "name": "Data Science Elective",
+      "name": "Other Elective",
       "type": "chooseOne",
       "options": ["CMSC421", "CMSC422", "CMSC470", "CMSC471", "CMSC472", "CMSC474"],
-      "category": "Data Science Elective"
+      "category": "Other Elective"
     }
   ]
 }

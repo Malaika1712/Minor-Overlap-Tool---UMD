@@ -5,7 +5,7 @@
       "name": "Required Courses",
       "type": "all",
       "options": ["BMGT402", "BMGT430", "BMGT431"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Electives (Choose 3–6 credits)",

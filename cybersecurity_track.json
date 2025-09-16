@@ -5,7 +5,7 @@
       "name": "Core Courses",
       "type": "all",
       "options": ["CMSC414", "CMSC456"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Cybersecurity Electives",

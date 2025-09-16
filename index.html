@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,63 +5,84 @@
   <title>Minor Overlap Checker</title>
   <script defer src="script.js"></script>
   <style>
+    :root {
+      --maryland-red: #e21833;
+      --maryland-gold: #ffd200;
+      --maryland-white: #ffffff;
+      --maryland-black: #000000;
+    }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 20px;
-      background-color: #f5f5f5;
-      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      background: var(--maryland-red);
     }
-    
     .container {
       max-width: 1200px;
-      margin: 0 auto;
-      background: white;
+      margin: 40px auto;
+      background: var(--maryland-white);
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      border: 4px solid var(--maryland-red);
+      position: relative;
     }
-    
     h1 {
-      color: #2c3e50;
+      color: var(--maryland-red);
       text-align: center;
       margin-bottom: 30px;
       font-size: 2.5em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 0 var(--maryland-gold), 2px 2px 0 var(--maryland-black);
     }
-    
+    .info-box {
+      background: #fffbe6;
+      border-left: 6px solid #ffd200;
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 1.08em;
+    }
+    .info-box ul {
+      margin: 10px 0 0 18px;
+      padding: 0;
+    }
+    .info-box li {
+      margin-bottom: 6px;
+    }
     .form-section {
-      background: #f8f9fa;
+      background: #fffbe6;
       padding: 20px;
       border-radius: 8px;
       margin-bottom: 20px;
-      border-left: 4px solid #3498db;
+      border-left: 6px solid var(--maryland-gold);
+      box-shadow: 0 2px 8px rgba(226,24,51,0.07);
     }
-    
     label {
       display: block;
       margin: 15px 0 5px 0;
       font-size: 16px;
       font-weight: 600;
-      color: #2c3e50;
+      color: var(--maryland-black);
     }
-    
     select {
       width: 100%;
       padding: 12px;
-      border: 2px solid #ddd;
+      border: 2px solid var(--maryland-gold);
       border-radius: 6px;
       font-size: 16px;
-      background: white;
+      background: var(--maryland-white);
       transition: border-color 0.3s;
     }
-    
     select:focus {
       outline: none;
-      border-color: #3498db;
+      border-color: var(--maryland-red);
     }
-    
     button {
-      background: #3498db;
-      color: white;
+      background: var(--maryland-red);
+      color: var(--maryland-white);
       padding: 15px 30px;
       border: none;
       border-radius: 6px;
@@ -71,540 +91,230 @@
       cursor: pointer;
       transition: background 0.3s;
       margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      letter-spacing: 1px;
     }
-    
     button:hover {
-      background: #2980b9;
+      background: var(--maryland-gold);
+      color: var(--maryland-black);
     }
-    
-    #results {
+    #results-area {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
       margin-top: 30px;
+    }
+    #results {
+      flex: 1;
       padding: 25px;
-      background: #fff;
+      background: var(--maryland-white);
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      border-left: 4px solid #27ae60;
+      border-left: 6px solid var(--maryland-red);
+      min-width: 0;
     }
-    
     #results h3 {
-      color: #2c3e50;
+      color: var(--maryland-red);
       margin-bottom: 20px;
       font-size: 1.5em;
+      font-weight: bold;
     }
-    
     #results h4 {
-      color: #34495e;
+      color: var(--maryland-black);
       margin: 20px 0 10px 0;
       font-size: 1.2em;
     }
-    
     #results p {
       margin: 10px 0;
       padding: 8px 0;
     }
-    
     #results strong {
-      color: #2c3e50;
+      color: var(--maryland-black);
     }
-    
-    .track-overlap {
-      color: #0066cc;
-      background: #e3f2fd;
-      padding: 5px 10px;
-      border-radius: 4px;
-      margin: 2px;
-      display: inline-block;
-    }
-    
-    .ulc-overlap {
-      color: #cc6600;
-      background: #fff3e0;
-      padding: 5px 10px;
-      border-radius: 4px;
-      margin: 2px;
-      display: inline-block;
-    }
-    
     .valid {
-      color: #27ae60;
+      color: var(--maryland-gold);
       font-weight: bold;
     }
-    
     .invalid {
-      color: #e74c3c;
+      color: var(--maryland-red);
       font-weight: bold;
     }
-    
     #error {
-      color: #e74c3c;
+      color: var(--maryland-red);
       white-space: pre-wrap;
       margin-top: 20px;
       font-weight: bold;
       padding: 15px;
       background: #fdf2f2;
       border-radius: 6px;
-      border-left: 4px solid #e74c3c;
+      border-left: 4px solid var(--maryland-red);
     }
-    
-    .course-breakdown {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 6px;
-      margin: 10px 0;
-    }
-    
-    .overlap-details {
-      margin-left: 20px;
-      padding: 10px;
-      background: #f8f9fa;
-      border-radius: 4px;
-      border-left: 3px solid #3498db;
-    }
-    
     .checkbox-group {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 10px;
       margin: 10px 0;
     }
-    
     .checkbox-item {
       display: flex;
       align-items: center;
       padding: 8px 12px;
-      background: white;
-      border: 2px solid #ddd;
+      background: var(--maryland-white);
+      border: 2px solid var(--maryland-gold);
       border-radius: 6px;
       transition: all 0.3s;
     }
-    
     .checkbox-item:hover {
-      border-color: #3498db;
-      background: #f8f9fa;
+      border-color: var(--maryland-red);
+      background: #fffbe6;
     }
-    
     .checkbox-item input[type="checkbox"] {
       margin-right: 10px;
       transform: scale(1.2);
     }
-    
     .checkbox-item label {
       margin: 0;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       flex: 1;
+      color: var(--maryland-red);
     }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>🎓 CS Minor Overlap Checker</h1>
-    <p style="text-align: center; color: #666; margin-bottom: 30px;">
-      Check overlap between your CS track <strong>area requirements</strong> and selected minors.
-    </p>
-    <p style="text-align: center; color: #888; font-size: 0.9em; margin-bottom: 30px;">
-      For advisors and students - Maximum 2 overlapping courses allowed.
-    </p>
-    
-    <div class="form-section">
-      <form id="overlapForm">
-        <label for="track">Select Your CS Track:</label>
-        <select id="track" name="track" required>
-          <option value="general_track.json">General Track</option>
-          <option value="cybersecurity_track.json">Cybersecurity Track</option>
-          <option value="data_science_track.json">Data Science Track</option>
-          <option value="ml_track.json">Machine Learning Track</option>
-          <option value="quantum_track.json">Quantum Track</option>
-        </select>
-        <p style="color: #b9770e; font-size: 0.95em; margin: 5px 0 10px 0;">
-          <strong>Note:</strong> For Data Science, Machine Learning, and Quantum tracks, a Linear Algebra course (MATH240, MATH341<sup>*</sup>, or MATH461) is required.<br>
-          <span style="font-size:0.9em;">(<sup>*</sup>MATH341 requires completion of MATH340 first.)</span>
-        </p>
-
-        <label for="minors">Select Your Minors (Choose multiple if needed):</label>
-        <p style="color: #666; font-size: 0.9em; margin: 5px 0;">
-          💡 Tip: You can select multiple minors to check for overlaps between them.
-        </p>
-        <div class="checkbox-group">
-          <div class="checkbox-item">
-            <input type="checkbox" id="Math" name="minors" value="Math.json">
-            <label for="Math">Math</label>
-          </div>
-          <div class="checkbox-item">
-            <input type="checkbox" id="Statistics" name="minors" value="Statistics.json">
-            <label for="Statistics">Statistics</label>
-          </div>
-          <div class="checkbox-item">
-            <input type="checkbox" id="BusinessAnalytics" name="minors" value="Business Analytics.json">
-            <label for="BusinessAnalytics">Business Analytics</label>
-          </div>
-          <div class="checkbox-item">
-            <input type="checkbox" id="Robotics" name="minors" value="Robotics.json">
-            <label for="Robotics">Robotics</label>
-          </div>
-          <div class="checkbox-item">
-            <input type="checkbox" id="QSE" name="minors" value="QSE.json">
-            <label for="QSE">QSE</label>
-          </div>
-          <div class="checkbox-item">
-            <input type="checkbox" id="ComputationalFinance" name="minors" value="Computational Finance.json">
-            <label for="ComputationalFinance">Computational Finance</label>
-          </div>
-        </div>
-
-        <button type="submit">🔍 Analyze Overlap</button>
-        <p style="color: #666; font-size: 0.9em; margin: 10px 0 0 0;">
-          ⏱️ Analysis may take a few seconds to load all course data.
-        </p>
-      </form>
-    </div>
-
-    <section id="results" style="display: none;">
-      <!-- Results will be dynamically generated by JavaScript -->
-      <div style="margin-top: 20px;">
-        <strong>Table format:</strong>
-        <ul style="margin: 8px 0 0 20px; color: #555;">
-          <li><strong>Courses:</strong> All overlapping course numbers in the same category (e.g., MATH401, MATH410, CMSC320, etc.)</li>
-          <li><strong>Category:</strong> The overlap type (e.g., Core, Track, Area, Elective, STAT4XX, MATH/STAT 3XX-4XX, etc.)</li>
-        </ul>
-        <div style="margin-top: 10px; color: #888; font-size: 0.95em;">
-          <strong>Example:</strong>
-          <table style="margin-top: 8px; border-collapse: collapse; font-size: 14px;">
-            <thead>
-              <tr style="background: #f8f9fa;">
-                <th style="padding: 6px 12px; border: 1px solid #ddd;">Courses</th>
-                <th style="padding: 6px 12px; border: 1px solid #ddd;">Category</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">MATH401, MATH410</td>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">MATH/STAT 3XX-4XX</td>
-              </tr>
-              <tr>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">STAT410</td>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">STAT4XX</td>
-              </tr>
-              <tr>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">CMSC320</td>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">Core</td>
-              </tr>
-              <tr>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">CMSC335</td>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">Elective</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="error" style="color: #e74c3c; background: #fdf2f2; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c; margin-top: 20px; display: none;"></section>
-  </div>
-</body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Minor Overlap Checker</title>
-  <script defer src="script.js"></script>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 20px;
-      background-color: #f5f5f5;
-      line-height: 1.6;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    h1 {
-      color: #2c3e50;
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 2.5em;
-    }
-    
-    .form-section {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      border-left: 4px solid #3498db;
-    }
-    
-    label {
-      display: block;
-      margin: 15px 0 5px 0;
-      font-size: 16px;
-      font-weight: 600;
-      color: #2c3e50;
-    }
-    
-    select {
+    /* Minor-specific colors */
+    .checkbox-item.math label { color: #e74c3c; }
+    .checkbox-item.statistics label { color: #3498db; }
+    .checkbox-item.business-analytics label { color: #f39c12; }
+    .checkbox-item.robotics label { color: #9b59b6; }
+    .checkbox-item.qse label { color: #1abc9c; }
+    .checkbox-item.computational-finance label { color: #34495e; }
+    /* Table styling for summary */
+    #results table {
+      margin-top: 18px;
+      border-collapse: collapse;
       width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 6px;
-      font-size: 16px;
-      background: white;
-      transition: border-color 0.3s;
+      background: #fffbe6;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.07);
     }
-    
-    select:focus {
-      outline: none;
-      border-color: #3498db;
+    #results th, #results td {
+      padding: 12px 16px;
+      border: 1px solid var(--maryland-gold);
+      font-size: 1em;
+      text-align: left;
     }
-    
-    button {
-      background: #3498db;
-      color: white;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 20px;
+    #results th {
+      background: var(--maryland-gold);
+      color: var(--maryland-black);
+      font-weight: 700;
     }
-    
-    button:hover {
-      background: #2980b9;
+    #results tr:nth-child(even) {
+      background: #fffde7;
     }
-    
-    #results {
-      margin-top: 30px;
-      padding: 25px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      border-left: 4px solid #27ae60;
+    #results tr:hover td {
+      background: #ffe6e6;
+      transition: background 0.2s;
     }
-    
-    #results h3 {
-      color: #2c3e50;
-      margin-bottom: 20px;
-      font-size: 1.5em;
-    }
-    
-    #results h4 {
-      color: #34495e;
-      margin: 20px 0 10px 0;
-      font-size: 1.2em;
-    }
-    
-    #results p {
-      margin: 10px 0;
-      padding: 8px 0;
-    }
-    
-    #results strong {
-      color: #2c3e50;
-    }
-    
-    .track-overlap {
-      color: #0066cc;
-      background: #e3f2fd;
-      padding: 5px 10px;
-      border-radius: 4px;
-      margin: 2px;
-      display: inline-block;
-    }
-    
-    .ulc-overlap {
-      color: #cc6600;
-      background: #fff3e0;
-      padding: 5px 10px;
-      border-radius: 4px;
-      margin: 2px;
-      display: inline-block;
-    }
-    
-    .valid {
-      color: #27ae60;
+    .mandatory {
       font-weight: bold;
-    }
-    
-    .invalid {
-      color: #e74c3c;
-      font-weight: bold;
-    }
-    
-    #error {
-      color: #e74c3c;
-      white-space: pre-wrap;
-      margin-top: 20px;
-      font-weight: bold;
-      padding: 15px;
-      background: #fdf2f2;
+      background: var(--maryland-red);
+      color: var(--maryland-white);
+      padding: 2px 8px;
       border-radius: 6px;
-      border-left: 4px solid #e74c3c;
+      letter-spacing: 0.5px;
     }
-    
-    .course-breakdown {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 6px;
-      margin: 10px 0;
+    @media (max-width: 900px) {
+      #results-area {
+        flex-direction: column;
+        gap: 0;
+      }
     }
-    
-    .overlap-details {
-      margin-left: 20px;
-      padding: 10px;
-      background: #f8f9fa;
-      border-radius: 4px;
-      border-left: 3px solid #3498db;
+    @media (max-width: 700px) {
+      .container {
+        padding: 10px;
+      }
+      #results table, #results th, #results td {
+        font-size: 0.95em;
+        padding: 8px;
+      }
+      .checkbox-group {
+        grid-template-columns: 1fr;
+      }
     }
-    
-    .checkbox-group {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-      margin: 10px 0;
-    }
-    
-    .checkbox-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 12px;
-      background: white;
-      border: 2px solid #ddd;
-      border-radius: 6px;
-      transition: all 0.3s;
-    }
-    
-    .checkbox-item:hover {
-      border-color: #3498db;
-      background: #f8f9fa;
-    }
-    
-    .checkbox-item input[type="checkbox"] {
-      margin-right: 10px;
-      transform: scale(1.2);
-    }
-    
-    .checkbox-item label {
-      margin: 0;
-      font-weight: 500;
-      cursor: pointer;
-      flex: 1;
+    button:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>🎓 CS Minor Overlap Checker</h1>
-    <p style="text-align: center; color: #666; margin-bottom: 30px;">
-      Check overlap between your CS track <strong>area requirements</strong> and selected minors.
-    </p>
-    <p style="text-align: center; color: #888; font-size: 0.9em; margin-bottom: 30px;">
-      For advisors and students - Maximum 2 overlapping courses allowed.
-    </p>
-    
+    <!-- Info box always visible at the top -->
+    <div class="info-box">
+      <strong>How to use this tool:</strong>
+      <ul>
+        <li><span style="background:#27ae60;color:#fff;padding:2px 8px;border-radius:6px;">Green</span> = Satisfies major requirement (including General Elective for CS major)</li>
+        <li>
+          <span style="background:#e74c3c;color:#fff;padding:2px 8px;border-radius:6px;">Red</span>,
+          <span style="background:#3498db;color:#fff;padding:2px 8px;border-radius:6px;">Blue</span>,
+          <span style="background:#f39c12;color:#fff;padding:2px 8px;border-radius:6px;">Gold</span>,
+          etc. = Satisfies minor requirement (color matches minor)
+        </li>
+        <li>No courses can overlap between selected minors.</li>
+        <li>This tool helps you check overlap between your CS track and selected minors.<br>
+          <strong>Final consultation requires advisor approval.</strong>
+        </li>
+      </ul>
+    </div>
     <div class="form-section">
       <form id="overlapForm">
         <label for="track">Select Your CS Track:</label>
-        <select id="track" name="track" required>
+        <select id="track" required>
           <option value="general_track.json">General Track</option>
           <option value="cybersecurity_track.json">Cybersecurity Track</option>
           <option value="data_science_track.json">Data Science Track</option>
           <option value="ml_track.json">Machine Learning Track</option>
           <option value="quantum_track.json">Quantum Track</option>
         </select>
-        <p style="color: #b9770e; font-size: 0.95em; margin: 5px 0 10px 0;">
-          <strong>Note:</strong> For Data Science, Machine Learning, and Quantum tracks, a Linear Algebra course (MATH240, MATH341<sup>*</sup>, or MATH461) is required.<br>
-          <span style="font-size:0.9em;">(<sup>*</sup>MATH341 requires completion of MATH340 first.)</span>
-        </p>
-
-        <label for="minors">Select Your Minors (Choose multiple if needed):</label>
-        <p style="color: #666; font-size: 0.9em; margin: 5px 0;">
-          💡 Tip: You can select multiple minors to check for overlaps between them.
-        </p>
+        <br><br>
+        <label>Select Your Minors:</label>
         <div class="checkbox-group">
-          <div class="checkbox-item">
+          <div class="checkbox-item math">
             <input type="checkbox" id="Math" name="minors" value="Math.json">
             <label for="Math">Math</label>
           </div>
-          <div class="checkbox-item">
+          <div class="checkbox-item statistics">
             <input type="checkbox" id="Statistics" name="minors" value="Statistics.json">
             <label for="Statistics">Statistics</label>
           </div>
-          <div class="checkbox-item">
+          <div class="checkbox-item business-analytics">
             <input type="checkbox" id="BusinessAnalytics" name="minors" value="Business Analytics.json">
             <label for="BusinessAnalytics">Business Analytics</label>
           </div>
-          <div class="checkbox-item">
+          <div class="checkbox-item robotics">
             <input type="checkbox" id="Robotics" name="minors" value="Robotics.json">
             <label for="Robotics">Robotics</label>
           </div>
-          <div class="checkbox-item">
+          <div class="checkbox-item qse">
             <input type="checkbox" id="QSE" name="minors" value="QSE.json">
             <label for="QSE">QSE</label>
           </div>
-          <div class="checkbox-item">
+          <div class="checkbox-item computational-finance">
             <input type="checkbox" id="ComputationalFinance" name="minors" value="Computational Finance.json">
             <label for="ComputationalFinance">Computational Finance</label>
           </div>
         </div>
-
         <button type="submit">🔍 Analyze Overlap</button>
         <p style="color: #666; font-size: 0.9em; margin: 10px 0 0 0;">
           ⏱️ Analysis may take a few seconds to load all course data.
         </p>
       </form>
+      <section id="error" style="color:red;"></section>
     </div>
-
-    <section id="results" style="display: none;">
-      <!-- Results will be dynamically generated by JavaScript -->
-      <div style="margin-top: 20px;">
-        <strong>Table format:</strong>
-        <ul style="margin: 8px 0 0 20px; color: #555;">
-          <li><strong>Courses:</strong> All overlapping course numbers in the same category (e.g., MATH401, MATH410, CMSC320, etc.)</li>
-          <li><strong>Category:</strong> The overlap type (e.g., Core, Track, Area, Elective, STAT4XX, MATH/STAT 3XX-4XX, etc.)</li>
-        </ul>
-        <div style="margin-top: 10px; color: #888; font-size: 0.95em;">
-          <strong>Example:</strong>
-          <table style="margin-top: 8px; border-collapse: collapse; font-size: 14px;">
-            <thead>
-              <tr style="background: #f8f9fa;">
-                <th style="padding: 6px 12px; border: 1px solid #ddd;">Courses</th>
-                <th style="padding: 6px 12px; border: 1px solid #ddd;">Category</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">MATH401, MATH410</td>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">MATH/STAT 3XX-4XX</td>
-              </tr>
-              <tr>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">STAT410</td>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">STAT4XX</td>
-              </tr>
-              <tr>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">CMSC320</td>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">Core</td>
-              </tr>
-              <tr>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">CMSC335</td>
-                <td style="padding: 6px 12px; border: 1px solid #ddd;">Elective</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="error" style="color: #e74c3c; background: #fdf2f2; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c; margin-top: 20px; display: none;"></section>
+    <!-- Results area only shows after analysis -->
+    <div id="results-area" style="display:none;">
+      <div id="results"></div>
+    </div>
   </div>
 </body>
->>>>>>> 4e2d5012ecb687ae84f35892005c0958891dc4b8
 </html>

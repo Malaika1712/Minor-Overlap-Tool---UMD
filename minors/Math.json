@@ -2,10 +2,10 @@
   "minor": "Mathematics",
   "requirements": [
     {
-      "name": "Required Courses",
-      "type": "all",
+      "name": "Calculus III Required Courses",
+      "type": "chooseOne",
       "options": ["MATH241", "MATH340"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Linear Algebra Requirement",
@@ -17,7 +17,7 @@
       "name": "MATH310 Requirement",
       "type": "all",
       "options": ["MATH310"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Theoretical Math Requirement",

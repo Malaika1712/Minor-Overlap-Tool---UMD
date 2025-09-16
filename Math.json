@@ -5,7 +5,7 @@
       "name": "Required Courses",
       "type": "all",
       "options": ["MATH241", "MATH340"],
-      "category": "Core"
+      "category": "Mandatory"
     },
     {
       "name": "Linear Algebra Requirement",
