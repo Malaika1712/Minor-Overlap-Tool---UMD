@@ -1,0 +1,1 @@
+The Minor Overlap Tool helps CMNS students and advisors at the University of Maryland quickly identify overlapping courses between a student’s major and minor. It automates overlap detection, aligns with UMD policies, and provides an intuitive interface for streamlined degree planning and advising support.
