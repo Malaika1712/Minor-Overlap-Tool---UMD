@@ -379,5 +379,68 @@ document.getElementById('overlapForm').addEventListener('submit', function(e) {
   checkOverlap(); // This should be your main function that runs the analysis and updates #results
 });
 
+// Group overlaps by unique summary combinations
+const summaryMap = new Map();
+
+Object.entries(overlapMap).forEach(([course, overlaps]) => {
+  const inMajor = trackCourses.includes(course) || coreCourses.includes(course) ||
+    (trackFile === "general_track.json" && /^(MATH|STAT)[34]\d{2}$/.test(course));
+  const inMinor = overlaps.length > 0;
+
+  if (inMajor && inMinor) {
+    overlaps.forEach(o => {
+      const cat = o.minorCat ? o.minorCat.toUpperCase() : '';
+      let minorColor = o.minorColor || '#e74c3c';
+      
+      // Collect all requirements this course satisfies
+      let requirements = [];
+
+      // Minor requirements
+      if (cat === 'MANDATORY') {
+        requirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;font-weight:bold;">MANDATORY</span>`);
+      } else if (["LINEAR ALGEBRA", "PROBABILITY", "THEORETICAL", "ANALYSIS", "ALGEBRA"].includes(cat)) {
+        requirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies ${o.minorCat} requirement</span>`);
+      } else if (cat === 'TECHNICAL ELECTIVE') {
+        requirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Technical Elective</span>`);
+      } else {
+        requirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies minor</span>`);
+      }
+
+      // Major requirements
+      if (o.majorCategory === "General Elective") {
+        requirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (major)</span>`);
+      }
+      
+      if (o.majorCategory === "Area" && o.area) {
+        requirements.push(`<span style="background:#B9770E;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Area ${o.area.areaNum} (${o.area.areaName})</span>`);
+      }
+
+      if (
+        /^(MATH|STAT)[34]\d{2}$/.test(course) ||
+        course === "STAT4XX" ||
+        course === "MATH/STATXXX"
+      ) {
+        requirements.push(`<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH/STAT 3XX-4XX (major)</span>`);
+      }
+
+      // Join all requirements with commas
+      const summary = requirements.join(', ');
+      
+      // Group courses by identical summaries
+      if (summaryMap.has(summary)) {
+        summaryMap.get(summary).push(course);
+      } else {
+        summaryMap.set(summary, [course]);
+      }
+    });
+  }
+});
+
+// Convert to array for table rendering
+const summaryRows = Array.from(summaryMap.entries()).map(([summary, courses]) => ({
+  courses: courses,
+  summary: summary
+}));
+
 
 
