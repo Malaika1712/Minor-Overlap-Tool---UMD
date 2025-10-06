@@ -27,12 +27,12 @@ const generalTrackElectives = [
 
 // Minor color mapping to match CSS
 const minorColors = {
-  'Math': '#108f2f',           // Green (matches HTML)
-  'Statistics': '#da2cfc',     // Purple (matches HTML) 
-  'Business Analytics': '#0eb0f0',  // Blue (matches HTML)
-  'Robotics': '#726f74',       // Gray (matches HTML)
-  'QSE': '#1d1abc',           // Blue (matches HTML)
-  'Computational Finance': '#ff9502'  // Orange (matches HTML)
+  'Math': '#108f2f',
+  'Statistics': '#da2cfc',
+  'Business Analytics': '#0eb0f0',
+  'Robotics': '#726f74',
+  'QSE': '#1d1abc',
+  'Computational Finance': '#ff9502'
 };
 
 function getMinorColor(minorName) {
@@ -72,13 +72,12 @@ async function checkOverlap() {
       });
     });
 
-    const majorCourses = new Set([...trackCourses, ...coreCourses]);
     const results = [];
 
     minorDataList.forEach((minor, index) => {
       const minorName = minorFiles[index].replace('.json', '');
       const minorCourses = new Set();
-      // Collect all minor courses from requirements
+      
       if (minor.requirements) {
         minor.requirements.forEach(req => {
           if (Array.isArray(req.options)) {
@@ -98,7 +97,6 @@ async function checkOverlap() {
         const isMathStat3xx4xx = /^(MATH|STAT)[34]\d{2}$/.test(cleanedCourse);
 
         if (trackFile === "general_track.json" && isMathStat3xx4xx) {
-          // For general track, treat all MATH/STAT 3XX/4XX as core
           coreOverlaps.push({ course: cleanedCourse, original: minorCourse, source: 'Core', coreType: "MATH/STATXXX" });
           return;
         }
@@ -139,7 +137,7 @@ async function checkOverlap() {
       });
     });
 
-    // Gather all overlaps for all minors
+    // Build overlap map - consolidate by course first
     const overlapMap = {};
     results.forEach(result => {
       const minorColor = getMinorColor(result.minor);
@@ -152,8 +150,11 @@ async function checkOverlap() {
 
       all.forEach(overlap => {
         const course = overlap.course;
-        if (!overlapMap[course]) overlapMap[course] = [];
-        // Find minor requirement/category
+        if (!overlapMap[course]) {
+          overlapMap[course] = [];
+        }
+
+        // Set minor category
         let minorCat = 'Elective';
         let isMandatory = false;
         if (result.requirements) {
@@ -164,6 +165,7 @@ async function checkOverlap() {
             }
           });
         }
+
         overlapMap[course].push({
           minor: overlap.minor,
           minorColor: overlap.minorColor,
@@ -174,73 +176,89 @@ async function checkOverlap() {
       });
     });
 
-    const isGeneralTrack = document.getElementById('track').value === "general_track.json";
-    const summaryRows = [];
+    // Consolidate all overlaps by course and build summary
+    const courseSummaries = new Map();
 
-    // Only show overlaps: course must be required by both major and minor
     Object.entries(overlapMap).forEach(([course, overlaps]) => {
-      // Check if course is in major requirements (trackCourses or coreCourses)
       const inMajor = trackCourses.includes(course) || coreCourses.includes(course) ||
         (trackFile === "general_track.json" && /^(MATH|STAT)[34]\d{2}$/.test(course));
-      // Check if course is in minor requirements (overlaps array is not empty)
       const inMinor = overlaps.length > 0;
 
       if (inMajor && inMinor) {
+        let minorRequirements = [];
+        let majorRequirements = [];
+
         overlaps.forEach(o => {
           const cat = o.minorCat ? o.minorCat.toUpperCase() : '';
-          let minorLabel = '';
           let minorColor = o.minorColor || '#e74c3c';
-
+          
+          // Minor requirements
           if (cat === 'MANDATORY') {
-            minorLabel = `<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;font-weight:bold;">MANDATORY</span>`;
+            minorRequirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;font-weight:bold;">MANDATORY</span>`);
           } else if (["LINEAR ALGEBRA", "PROBABILITY", "THEORETICAL", "ANALYSIS", "ALGEBRA"].includes(cat)) {
-            minorLabel = `<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies ${o.minorCat} requirement</span>`;
+            minorRequirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies ${o.minorCat} requirement</span>`);
           } else if (cat === 'TECHNICAL ELECTIVE') {
-            minorLabel = `<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Technical Elective</span>`;
+            minorRequirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Technical Elective</span>`);
           } else {
-            minorLabel = `<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies minor</span>`;
+            minorRequirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies minor</span>`);
           }
 
-          // For major labels, use red
-          let satisfiesLabel = '';
-          if (
-            /^(MATH|STAT)[34]\d{2}$/.test(course) ||
-            course === "STAT4XX" ||
-            course === "MATH/STATXXX"
-          ) {
-            satisfiesLabel = `<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH/STAT 3XX-4XX (major)</span>`;
+          // Major requirements (collect once per unique requirement)
+          if (o.majorCategory === "General Elective" && !majorRequirements.some(req => req.includes("General Elective"))) {
+            majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (major)</span>`);
           }
-
-          let majorLabel = '';
-          if (o.majorCategory === "General Elective") {
-            majorLabel = `<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (major)</span>`;
-          }
-
-          // Compose the summary
-          let summary = minorLabel;
-          if (majorLabel) {
-            summary += ` and ${majorLabel}`;
-          }
-          if (o.majorCategory === "Area" && o.area) {
-            summary += ` and <span style="background:#B9770E;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Area ${o.area.areaNum} (${o.area.areaName})</span>`;
-          }
-          if (satisfiesLabel) {
-            summary += ` and ${satisfiesLabel}`;
-          }
-
-          // Find if this group already exists (by summary)
-          let existing = summaryRows.find(row => row.summary === summary);
-          if (existing) {
-            existing.courses.push(course);
-          } else {
-            summaryRows.push({ courses: [course], summary });
+          
+          if (o.majorCategory === "Area" && o.area && !majorRequirements.some(req => req.includes(`Area ${o.area.areaNum}`))) {
+            majorRequirements.push(`<span style="background:#B9770E;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Area ${o.area.areaNum} (${o.area.areaName})</span>`);
           }
         });
+
+        // Check MATH/STAT requirement once per course
+        if (
+          (/^(MATH|STAT)[34]\d{2}$/.test(course) || course === "STAT4XX" || course === "MATH/STATXXX") &&
+          !majorRequirements.some(req => req.includes("MATH/STAT 3XX-4XX"))
+        ) {
+          majorRequirements.push(`<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH/STAT 3XX-4XX (major)</span>`);
+        }
+
+        // Remove duplicates and combine all requirements
+        const uniqueMinorReqs = [...new Set(minorRequirements)];
+        const uniqueMajorReqs = [...new Set(majorRequirements)];
+        const allRequirements = [...uniqueMinorReqs, ...uniqueMajorReqs];
+
+        // Format with commas and "and" before the last item
+        let formattedSummary = '';
+        if (allRequirements.length === 1) {
+          formattedSummary = allRequirements[0];
+        } else if (allRequirements.length === 2) {
+          formattedSummary = allRequirements.join(' and ');
+        } else {
+          const lastRequirement = allRequirements.pop();
+          formattedSummary = allRequirements.join(', ') + ' and ' + lastRequirement;
+        }
+
+        courseSummaries.set(course, formattedSummary);
       }
     });
 
+    // Group courses by identical summaries for the table
+    const summaryMap = new Map();
+    courseSummaries.forEach((summary, course) => {
+      if (summaryMap.has(summary)) {
+        summaryMap.get(summary).push(course);
+      } else {
+        summaryMap.set(summary, [course]);
+      }
+    });
+
+    // Convert to array for table rendering
+    const summaryRows = Array.from(summaryMap.entries()).map(([summary, courses]) => ({
+      courses: courses,
+      summary: summary
+    }));
+
     // Count total overlapping courses
-    const totalOverlapCourses = summaryRows.length;
+    const totalOverlapCourses = Array.from(courseSummaries.keys()).length;
 
     // Render summary table
     let trackName = document.getElementById('track').options[document.getElementById('track').selectedIndex].text;
@@ -267,20 +285,6 @@ async function checkOverlap() {
       '</tr></thead><tbody>';
 
     summaryRows.forEach((row, i) => {
-      // Determine the minor color for course highlighting
-      let courseHighlight = '#f9f9f9'; // default
-      if (row.courses.length > 0) {
-        const firstCourse = row.courses[0];
-        if (overlapMap[firstCourse] && overlapMap[firstCourse].length > 0) {
-          courseHighlight = overlapMap[firstCourse][0].minorColor || '#f9f9f9';
-        }
-      }
-
-      // Highlight the courses with minor color, keep normal table background
-      const highlightedCourses = row.courses.map(course => 
-        `<span style="background:${courseHighlight};color:#fff;padding:4px 8px;border-radius:6px;font-weight:bold;">${course}</span>`
-      ).join(', ');
-
       resultHTML += `
         <tr style="background:${i % 2 === 0 ? '#fff' : '#f9f9f9'};">
           <td style="padding:12px;border:1px solid #ddd;">${row.courses.join(', ')}</td>
@@ -305,7 +309,6 @@ async function checkOverlap() {
         .concat(result.electiveOverlaps.map(o => o.course))
     ));
     let overlapBetweenMinors = false;
-    let overlappingCourses = [];
     let overlappingPairs = [];
 
     if (minorCourseSets.length > 1) {
@@ -314,7 +317,6 @@ async function checkOverlap() {
           const intersection = [...minorCourseSets[i]].filter(x => minorCourseSets[j].has(x));
           if (intersection.length > 0) {
             overlapBetweenMinors = true;
-            overlappingCourses = overlappingCourses.concat(intersection);
             overlappingPairs.push({
               minors: [selectedMinors[i], selectedMinors[j]],
               courses: intersection
@@ -325,18 +327,16 @@ async function checkOverlap() {
     }
 
     if (overlapBetweenMinors) {
-      // Build the overlap warning box
       let overlapBox = `<div style="background:#fffbe6;color:#e21833;padding:16px 20px;border-radius:8px;font-weight:bold;margin-top:20px;border-left:6px solid #e21833;">
-  <span style="font-size:1.3em;">❌</span> <span style="color:#e21833;">Not allowed:</span> The following courses overlap between selected minors:<br>`;
+        <span style="font-size:1.3em;">❌</span> <span style="color:#e21833;">Not allowed:</span> The following courses overlap between selected minors:<br>`;
       overlappingPairs.forEach(pair => {
         overlapBox += `<div style="margin-top:8px;">
-    <span style="color:#ffd200;">${pair.courses.join(', ')}</span>
-    <span style="color:#000;"><strong>between ${pair.minors[0]}</strong> and <strong>${pair.minors[1]}</strong></span>
-  </div>`;
+          <span style="color:#ffd200;">${pair.courses.join(', ')}</span>
+          <span style="color:#000;"><strong>between ${pair.minors[0]}</strong> and <strong>${pair.minors[1]}</strong></span>
+        </div>`;
       });
       overlapBox += `<div style="margin-top:10px;color:#e21833;">Please adjust your selection. Overlapping courses between minors are not allowed.</div></div>`;
 
-      // Append the warning box to the results
       document.getElementById('results').innerHTML += overlapBox;
     }
   } catch (err) {
@@ -345,8 +345,6 @@ async function checkOverlap() {
     console.error(err);
   }
 }
-
-
 
 // Helper functions
 function extractAllCourses(data) {
@@ -376,71 +374,8 @@ function extractAllCourses(data) {
 
 document.getElementById('overlapForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  checkOverlap(); // This should be your main function that runs the analysis and updates #results
+  checkOverlap();
 });
-
-// Group overlaps by unique summary combinations
-const summaryMap = new Map();
-
-Object.entries(overlapMap).forEach(([course, overlaps]) => {
-  const inMajor = trackCourses.includes(course) || coreCourses.includes(course) ||
-    (trackFile === "general_track.json" && /^(MATH|STAT)[34]\d{2}$/.test(course));
-  const inMinor = overlaps.length > 0;
-
-  if (inMajor && inMinor) {
-    overlaps.forEach(o => {
-      const cat = o.minorCat ? o.minorCat.toUpperCase() : '';
-      let minorColor = o.minorColor || '#e74c3c';
-      
-      // Collect all requirements this course satisfies
-      let requirements = [];
-
-      // Minor requirements
-      if (cat === 'MANDATORY') {
-        requirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;font-weight:bold;">MANDATORY</span>`);
-      } else if (["LINEAR ALGEBRA", "PROBABILITY", "THEORETICAL", "ANALYSIS", "ALGEBRA"].includes(cat)) {
-        requirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies ${o.minorCat} requirement</span>`);
-      } else if (cat === 'TECHNICAL ELECTIVE') {
-        requirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Technical Elective</span>`);
-      } else {
-        requirements.push(`<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies minor</span>`);
-      }
-
-      // Major requirements
-      if (o.majorCategory === "General Elective") {
-        requirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (major)</span>`);
-      }
-      
-      if (o.majorCategory === "Area" && o.area) {
-        requirements.push(`<span style="background:#B9770E;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Area ${o.area.areaNum} (${o.area.areaName})</span>`);
-      }
-
-      if (
-        /^(MATH|STAT)[34]\d{2}$/.test(course) ||
-        course === "STAT4XX" ||
-        course === "MATH/STATXXX"
-      ) {
-        requirements.push(`<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH/STAT 3XX-4XX (major)</span>`);
-      }
-
-      // Join all requirements with commas
-      const summary = requirements.join(', ');
-      
-      // Group courses by identical summaries
-      if (summaryMap.has(summary)) {
-        summaryMap.get(summary).push(course);
-      } else {
-        summaryMap.set(summary, [course]);
-      }
-    });
-  }
-});
-
-// Convert to array for table rendering
-const summaryRows = Array.from(summaryMap.entries()).map(([summary, courses]) => ({
-  courses: courses,
-  summary: summary
-}));
 
 
 
