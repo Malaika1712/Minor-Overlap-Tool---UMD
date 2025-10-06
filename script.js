@@ -26,16 +26,17 @@ const generalTrackElectives = [
 ];
 
 // Minor color mapping to match CSS
+const minorColors = {
+  'Math': '#108f2f',           // Green (matches HTML)
+  'Statistics': '#da2cfc',     // Purple (matches HTML) 
+  'Business Analytics': '#0eb0f0',  // Blue (matches HTML)
+  'Robotics': '#726f74',       // Gray (matches HTML)
+  'QSE': '#1d1abc',           // Blue (matches HTML)
+  'Computational Finance': '#ff9502'  // Orange (matches HTML)
+};
+
 function getMinorColor(minorName) {
-  const colorMap = {
-    'Math': '#e74c3c',                
-    'Statistics': '#3498db',          
-    'Business Analytics': '#f39c12',  
-    'Robotics': '#9b59b6',            
-    'QSE': '#1abc9c',                 
-    'Computational Finance': '#34495e'
-  };
-  return colorMap[minorName] || '#34495e';
+  return minorColors[minorName] || '#34495e';
 }
 
 async function checkOverlap() {
@@ -200,18 +201,19 @@ async function checkOverlap() {
             minorLabel = `<span style="background:${minorColor};color:#fff;padding:2px 8px;border-radius:6px;">Satisfies minor</span>`;
           }
 
-          let majorLabel = '';
-          if (o.majorCategory === "General Elective") {
-            majorLabel = `<span style="background:#27ae60;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (major)</span>`;
-          }
-
+          // For major labels, use red
           let satisfiesLabel = '';
           if (
             /^(MATH|STAT)[34]\d{2}$/.test(course) ||
             course === "STAT4XX" ||
             course === "MATH/STATXXX"
           ) {
-            satisfiesLabel = `<span style="background:#27ae60;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH/STAT 3XX-4XX (major)</span>`;
+            satisfiesLabel = `<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH/STAT 3XX-4XX (major)</span>`;
+          }
+
+          let majorLabel = '';
+          if (o.majorCategory === "General Elective") {
+            majorLabel = `<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (major)</span>`;
           }
 
           // Compose the summary
@@ -264,11 +266,27 @@ async function checkOverlap() {
       '<th style="padding: 8px; border: 1px solid #ddd; width: 65%;">Overlap summary</th>' +
       '</tr></thead><tbody>';
 
-    summaryRows.forEach(row => {
-      resultHTML += `<tr>
-        <td style="padding: 8px; border: 1px solid #ddd;">${row.courses.join(', ')}</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${row.summary}</td>
-      </tr>`;
+    summaryRows.forEach((row, i) => {
+      // Determine the minor color for course highlighting
+      let courseHighlight = '#f9f9f9'; // default
+      if (row.courses.length > 0) {
+        const firstCourse = row.courses[0];
+        if (overlapMap[firstCourse] && overlapMap[firstCourse].length > 0) {
+          courseHighlight = overlapMap[firstCourse][0].minorColor || '#f9f9f9';
+        }
+      }
+
+      // Highlight the courses with minor color, keep normal table background
+      const highlightedCourses = row.courses.map(course => 
+        `<span style="background:${courseHighlight};color:#fff;padding:4px 8px;border-radius:6px;font-weight:bold;">${course}</span>`
+      ).join(', ');
+
+      resultHTML += `
+        <tr style="background:${i % 2 === 0 ? '#fff' : '#f9f9f9'};">
+          <td style="padding:12px;border:1px solid #ddd;">${row.courses.join(', ')}</td>
+          <td style="padding:12px;border:1px solid #ddd;">${row.summary}</td>
+        </tr>
+      `;
     });
 
     resultHTML += '</tbody></table>';
