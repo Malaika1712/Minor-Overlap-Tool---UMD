@@ -3,10 +3,10 @@
   "requirements": [
     {
       "courses": [
-        "STAT 400",
-        "CMSC 320",
-        "CMSC 422",
-        "CMSC 424"
+        "STAT400",
+        "CMSC320",
+        "CMSC422",
+        "CMSC424"
       ],
       "category": "MANDATORY"
     },
@@ -14,9 +14,9 @@
       "description": "Choose one course from the following linear algebra options",
       "courses_needed": 1,
       "courses": [
-        "MATH 240",
-        "MATH 461",
-        "MATH 341"
+        "MATH240",
+        "MATH461",
+        "MATH341"
       ],
       "category": "LINEAR ALGEBRA"
     },
@@ -24,13 +24,13 @@
       "description": "Choose one course from the following list",
       "courses_needed": 1,
       "courses": [
-        "CMSC 420",
-        "CMSC 421",
-        "CMSC 423",
-        "CMSC 425",
-        "CMSC 426",
-        "CMSC 427",
-        "CMSC 470"
+        "CMSC420",
+        "CMSC421",
+        "CMSC423",
+        "CMSC425",
+        "CMSC426",
+        "CMSC427",
+        "CMSC470"
       ],
       "category": "ELECTIVE GROUP 1"
     },
@@ -38,9 +38,9 @@
       "description": "Choose one course from the following algorithms list",
       "courses_needed": 1,
       "courses": [
-        "CMSC 451",
-        "CMSC 454",
-        "CMSC 460"
+        "CMSC451",
+        "CMSC454",
+        "CMSC460"
       ],
       "category": "ELECTIVE GROUP 2"
     },
@@ -48,14 +48,14 @@
       "description": "Choose two courses from the following systems list",
       "courses_needed": 2,
       "courses": [
-        "CMSC 411",
-        "CMSC 412",
-        "CMSC 414",
-        "CMSC 417",
-        "CMSC 430",
-        "CMSC 433",
-        "CMSC 434",
-        "CMSC 435"
+        "CMSC411",
+        "CMSC412",
+        "CMSC414",
+        "CMSC417",
+        "CMSC430",
+        "CMSC433",
+        "CMSC434",
+        "CMSC435"
       ],
       "category": "ELECTIVE GROUP 3"
     }

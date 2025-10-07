@@ -1,5 +1,5 @@
 {
-  "track": "Statistics",
+  "minor": "Statistics",
   "requirements": [
     {
       "name": "Math Prerequisite",

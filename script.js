@@ -51,10 +51,12 @@ async function checkOverlap() {
       trackData.requirements.forEach(req => {
         if (
           req.category &&
-          req.category.toUpperCase() === 'MANDATORY' &&
-          Array.isArray(req.options)
+          req.category.toUpperCase() === 'MANDATORY'
         ) {
-          req.options.forEach(c => trackMandatoryCourses.add(cleanCourseCode(c)));
+          const courseList = req.options || req.courses || [];
+          if (Array.isArray(courseList)) {
+            courseList.forEach(c => trackMandatoryCourses.add(cleanCourseCode(c)));
+          }
         }
       });
     }
@@ -80,8 +82,17 @@ async function checkOverlap() {
       
       if (minor.requirements) {
         minor.requirements.forEach(req => {
-          if (Array.isArray(req.options)) {
-            req.options.forEach(c => minorCourses.add(cleanCourseCode(c)));
+          const courseList = req.options || req.courses || [];
+          if (Array.isArray(courseList)) {
+            courseList.forEach(item => {
+              if (Array.isArray(item)) {
+                // Handle nested arrays like [["STAT400", "STAT401"]]
+                item.forEach(c => minorCourses.add(cleanCourseCode(c)));
+              } else {
+                // Handle regular strings
+                minorCourses.add(cleanCourseCode(item));
+              }
+            });
           }
         });
       }
@@ -115,7 +126,26 @@ async function checkOverlap() {
         if (trackCourses.includes(cleanedCourse)) {
           const areaInfo = areaCourseMap[cleanedCourse];
           const isTrackMandatory = trackMandatoryCourses.has(cleanedCourse);
-          trackOverlaps.push({ course: cleanedCourse, original: minorCourse, source: 'Track', area: areaInfo, trackMandatory: isTrackMandatory });
+          
+          // Find which track requirement this course satisfies
+          let trackCategory = 'Track Requirement';
+          if (trackData.requirements) {
+            trackData.requirements.forEach(req => {
+              const courseList = req.options || req.courses || [];
+              if (courseList && courseList.map(cleanCourseCode).includes(cleanedCourse)) {
+                trackCategory = req.category || req.name || 'Track Requirement';
+              }
+            });
+          }
+          
+          trackOverlaps.push({ 
+            course: cleanedCourse, 
+            original: minorCourse, 
+            source: 'Track', 
+            area: areaInfo, 
+            trackMandatory: isTrackMandatory,
+            trackCategory: trackCategory
+          });
           return;
         }
         const areaInfo = areaCourseMap[cleanedCourse];
@@ -143,7 +173,7 @@ async function checkOverlap() {
       const minorColor = getMinorColor(result.minor);
       const all = [
         ...result.coreOverlaps.map(o => ({ ...o, majorCategory: "Core", minor: result.minor, minorColor })),
-        ...result.trackOverlaps.map(o => ({ ...o, majorCategory: "Track", minor: result.minor, minorColor })),
+        ...result.trackOverlaps.map(o => ({ ...o, majorCategory: "Track", minor: result.minor, minorColor, trackCategory: o.trackCategory })),
         ...result.areaOverlaps.map(o => ({ ...o, majorCategory: "Area", minor: result.minor, minorColor, area: o.area })),
         ...result.electiveOverlaps.map(o => ({ ...o, majorCategory: "General Elective", minor: result.minor, minorColor }))
       ];
@@ -159,7 +189,8 @@ async function checkOverlap() {
         let isMandatory = false;
         if (result.requirements) {
           result.requirements.forEach(req => {
-            if (req.options && req.options.map(cleanCourseCode).includes(cleanCourseCode(typeof course === 'string' ? course : course.course))) {
+            const courseList = req.options || req.courses || [];
+            if (courseList && courseList.map(cleanCourseCode).includes(cleanCourseCode(typeof course === 'string' ? course : course.course))) {
               minorCat = req.category || req.name || 'Elective';
               if (req.type === 'all' || req.type === 'required' || req.category === 'MANDATORY') isMandatory = true;
             }
@@ -207,7 +238,15 @@ async function checkOverlap() {
           if (o.majorCategory === "General Elective" && !majorRequirements.some(req => req.includes("General Elective"))) {
             majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (major)</span>`);
           }
-          
+
+          if (o.majorCategory === "Track" && o.trackCategory && !majorRequirements.some(req => req.includes(o.trackCategory))) {
+            if (o.trackCategory.toUpperCase() === 'MANDATORY') {
+              majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;font-weight:bold;">MANDATORY (major)</span>`);
+            } else {
+              majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies ${o.trackCategory} (major)</span>`);
+            }
+          }
+
           if (o.majorCategory === "Area" && o.area && !majorRequirements.some(req => req.includes(`Area ${o.area.areaNum}`))) {
             majorRequirements.push(`<span style="background:#B9770E;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Area ${o.area.areaNum} (${o.area.areaName})</span>`);
           }
