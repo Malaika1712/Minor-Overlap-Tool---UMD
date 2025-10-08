@@ -1,0 +1,39 @@
+{
+  "minor": "Actuarial Math",
+  "requirements": [
+    {
+      "name": "Calculus III Requirement",
+      "type": "chooseOne",
+      "options": ["MATH241", "MATH340"],
+      "category": "Math"
+    },
+    {
+      "name": "Probability & Statistics Sequence",
+      "type": "chooseOneGroup",
+      "options": [
+        ["STAT400", "STAT401"],
+        ["STAT410", "STAT420"],
+        ["STAT410", "STAT401"]
+      ],
+      "category": "Probability"
+    },
+    {
+      "name": "Linear Algebra Requirement",
+      "type": "chooseOne",
+      "options": ["MATH461", "MATH240", "MATH341"],
+      "category": "Linear Algebra"
+    },
+    {
+      "name": "Actuarial Mathematics",
+      "type": "all",
+      "options": ["STAT470"],
+      "category": "Core"
+    },
+    {
+      "name": "Recommended Courses",
+      "type": "elective",
+      "options": ["MATH424", "STAT430"],
+      "category": "Elective"
+    }
+  ]
+}

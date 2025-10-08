@@ -1,0 +1,47 @@
+{
+  "minor": "Data Science",
+  "requirements": [
+    {
+      "name": "R Programming",
+      "type": "all",
+      "options": ["DATA110"],
+      "category": "Core"
+    },
+    {
+      "name": "Python Programming",
+      "type": "all",
+      "options": ["DATA120"],
+      "category": "Core"
+    },
+    {
+      "name": "Ethics and Best Practices",
+      "type": "all",
+      "options": ["DATA200"],
+      "category": "Core"
+    },
+    {
+      "name": "Discrete Mathematics",
+      "type": "all",
+      "options": ["DATA250"],
+      "category": "Math"
+    },
+    {
+      "name": "Introduction to Data Science",
+      "type": "all",
+      "options": ["DATA320"],
+      "category": "Core"
+    },
+    {
+      "name": "Data Visualization",
+      "type": "all",
+      "options": ["DATA350"],
+      "category": "Core"
+    },
+    {
+      "name": "Applied Probability and Statistics",
+      "type": "all",
+      "options": ["DATA400"],
+      "category": "Statistics"
+    }
+  ]
+}

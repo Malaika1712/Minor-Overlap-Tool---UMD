@@ -186,6 +186,8 @@
     .checkbox-item.robotics label { color: #726f74; }
     .checkbox-item.qse label { color: #1d1abc; }
     .checkbox-item.computational-finance label { color: #ff9502; }
+    .checkbox-item.actuarial label { color: #5c067eff; }
+    .checkbox-item.data-science label { color: rgb(165, 15, 123); }
     /* Table styling for summary */
     #results table {
       margin-top: 18px;
@@ -243,6 +245,85 @@
     button:active {
       transform: scale(0.98);
       box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    /* Minor checkbox label colors */
+    label[for="math"] {
+      color: #108f2f;
+      font-weight: bold;
+    }
+
+    label[for="statistics"] {
+      color: #da2cfc;
+      font-weight: bold;
+    }
+
+    label[for="business"] {
+      color: #0eb0f0;
+      font-weight: bold;
+    }
+
+    label[for="robotics"] {
+      color: #726f74;
+      font-weight: bold;
+    }
+
+    label[for="qse"] {
+      color: #1d1abc;
+      font-weight: bold;
+    }
+
+    label[for="finance"] {
+      color: #ff9502;
+      font-weight: bold;
+    }
+
+    label[for="actuarial"] {
+      color: #8e44ad;
+      font-weight: bold;
+    }
+
+    label[for="datascience"] {
+      color: #e67e22;
+      font-weight: bold;
+    }
+
+    /* Hover effect for better UX */
+    label[for="math"]:hover,
+    label[for="statistics"]:hover,
+    label[for="business"]:hover,
+    label[for="robotics"]:hover,
+    label[for="qse"]:hover,
+    label[for="finance"]:hover,
+    label[for="actuarial"]:hover,
+    label[for="datascience"]:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+    /* Fix table text wrapping for badges */
+    #results td {
+      vertical-align: top;
+      line-height: 1.6;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    /* Ensure badges don't break across lines */
+    #results td span {
+      display: inline-block;
+      margin: 2px 4px 2px 0;
+      white-space: nowrap;
+    }
+
+    /* Add some breathing room for multi-line content */
+    #results td {
+      padding: 16px 12px;
+      min-height: 60px;
+    }
+
+    /* Specific styling for the overlap summary column */
+    #results td:last-child {
+      line-height: 1.8;
     }
   </style>
 </head>
@@ -302,6 +383,14 @@
           <div class="checkbox-item computational-finance">
             <input type="checkbox" id="ComputationalFinance" name="minors" value="Computational Finance.json">
             <label for="ComputationalFinance">Computational Finance</label>
+          </div>
+          <div class="checkbox-item actuarial">
+            <input type="checkbox" id="Actuarial" name="minors" value="Actuarial Math.json">
+            <label for="Actuarial">Actuarial Math</label>
+          </div>
+          <div class="checkbox-item data-science">
+            <input type="checkbox" id="DataScience" name="minors" value="Data Science.json">
+            <label for="DataScience">Data Science</label>
           </div>
         </div>
         <button type="submit">🔍 Analyze Overlap</button>
