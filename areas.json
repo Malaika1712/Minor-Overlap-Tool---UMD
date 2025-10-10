@@ -10,12 +10,7 @@
         "CMSC412",
         "CMSC414",
         "CMSC416",
-        "CMSC417",
-        "CMSC498B",
-        "CMSC498C",
-        "CMSC498I",
-        "CMSC498K",
-        "CMSC498X"
+        "CMSC417"
       ]
     },
     {
@@ -31,13 +26,7 @@
         "CMSC427",
         "CMSC470",
         "CMSC471",
-        "CMSC472",
-        "CMSC498D",
-        "CMSC498E",
-        "CMSC498F",
-        "CMSC498V",
-        "CMSC498Y",
-        "CMSC498Z"
+        "CMSC472"
       ]
     },
     {
@@ -60,6 +49,7 @@
         "CMSC452",
         "CMSC454",
         "CMSC456",
+        "MATH456",
         "CMSC457",
         "CMSC474"
       ]
@@ -69,7 +59,9 @@
       "name": "Numerical Analysis",
       "courses": [
         "CMSC460",
-        "CMSC466"
+        "AMSC460",
+        "CMSC466",
+        "AMSC466"
       ]
     }
   ]

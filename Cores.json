@@ -1,28 +1,31 @@
 {
   "track": "CS Core Requirements",
   "description": "Core courses are the same for all CS tracks. These courses are mandatory and cannot be used for overlap analysis with minors.",
-  "courses": [
-    "MATH140",
-    "MATH141", 
-    "STAT4XX",
-    "STAT400",
-    "MATH/STATXXX",
-    "MATH240",
-    "MATH341", 
-    "MATH461",
-    "CMSC131",
-    "CMSC133",
-    "CMSC132", 
-    "CMSC216", 
-    "CMSC250", 
-    "CMSC330", 
-    "CMSC351"
-  ],
-  "notes": [
-    "STAT4XX: Must have MATH141 prerequisite; Cannot be crosslisted with CMSC",
-    "MATH/STATXXX: Must have MATH141 prerequisite; Cannot be cross-listed with CMSC", 
-    "Data Science, Machine Learning, and Quantum Information students must take a MATH Linear Algebra course (MATH240, MATH341 [must complete MATH340 first], or MATH461)",
-    "CMSC131 or CMSC133: Object-Oriented Programming I options"
+  "requirements": [
+    {
+      "name": "Math Requirement",
+      "type": "all",
+      "courses": ["MATH140", "MATH141"],
+      "category": "MANDATORY"
+    },
+    {
+      "name": "Computer Science Courses",
+      "type": "all", 
+      "courses": ["CMSC131", "CMSC133", "CMSC132", "CMSC216", "CMSC250", "CMSC330", "CMSC351"],
+      "category": "MANDATORY"
+    },
+    {
+      "name": "STAT4XX Requirement",
+      "type": "chooseOne",
+      "courses": ["STAT400", "STAT401", "STAT405", "STAT410", "STAT411", "STAT420", "STAT430", "STAT440", "STAT450", "STAT470"],
+      "category": "STAT4XX"
+    },
+    {
+      "name": "Additional Math/Stat Requirement",
+      "type": "chooseOne",
+      "courses": ["MATH240", "MATH241", "MATH246", "MATH310", "MATH340", "MATH341", "STAT401", "STAT405", "STAT410", "STAT411", "STAT420", "STAT430", "STAT440", "STAT450", "STAT470"],
+      "category": "MATH/STATXXX"
+    }
   ]
 }
 

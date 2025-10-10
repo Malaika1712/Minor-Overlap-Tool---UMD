@@ -169,18 +169,29 @@ async function checkOverlap() {
       minorCourses.forEach(minorCourse => {
         const cleanedCourse = cleanCourseCode(minorCourse);
         const isStat4XX = /^STAT4\d{2}$/.test(cleanedCourse);
-        const isMathStat3xx4xx = /^(MATH|STAT)[34]\d{2}$/.test(cleanedCourse);
+        const isMathStat = /^(MATH|STAT)[234]\d{2}$/.test(cleanedCourse);
 
-        if (trackFile === "general_track.json" && isMathStat3xx4xx) {
-          coreOverlaps.push({ course: cleanedCourse, original: minorCourse, source: 'Core', coreType: "MATH/STATXXX" });
-          return;
-        }
+        // Handle STAT4XX requirement
         if (coreCourses.includes("STAT4XX") && isStat4XX) {
-          coreOverlaps.push({ course: cleanedCourse, original: minorCourse, source: 'Core', coreType: "STAT4XX" });
+          coreOverlaps.push({ 
+            course: cleanedCourse, 
+            original: minorCourse, 
+            source: 'Core', 
+            coreType: "STAT4XX",
+            satisfiesStatRequirement: true 
+          });
           return;
         }
-        if (coreCourses.includes("MATH/STATXXX") && isMathStat3xx4xx) {
-          coreOverlaps.push({ course: cleanedCourse, original: minorCourse, source: 'Core', coreType: "MATH/STATXXX" });
+
+        // Handle MATH/STAT requirement with validation  
+        if (coreCourses.includes("MATH/STATXXX") && isMathStat) {
+          coreOverlaps.push({ 
+            course: cleanedCourse, 
+            original: minorCourse, 
+            source: 'Core', 
+            coreType: "MATH/STAT",
+            satisfiesStatRequirement: /^STAT/.test(cleanedCourse)
+          });
           return;
         }
         if (coreCourses.includes(cleanedCourse)) {
@@ -333,10 +344,10 @@ async function checkOverlap() {
 
         // Check MATH/STAT requirement once per course
         if (
-          (/^(MATH|STAT)[34]\d{2}$/.test(course) || course === "STAT4XX" || course === "MATH/STATXXX") &&
-          !majorRequirements.some(req => req.includes("MATH/STAT 3XX-4XX"))
+          (/^(MATH|STAT)[234]\d{2}$/.test(course) || course === "STAT4XX" || course === "MATH/STATXXX") &&
+          !majorRequirements.some(req => req.includes("MATH and STAT"))
         ) {
-          majorRequirements.push(`<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH/STAT 3XX-4XX (major)</span>`);
+          majorRequirements.push(`<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH and STAT (major)</span>`);
         }
 
         // Remove duplicates and combine all requirements
@@ -375,8 +386,8 @@ async function checkOverlap() {
       summary: summary
     }));
 
-    // Count total overlapping courses
-    const totalOverlapCourses = Array.from(courseSummaries.keys()).length;
+    // Count total overlapping rows (not individual courses)
+    const totalOverlapCourses = summaryRows.length;
 
     // Render summary table
     let trackName = document.getElementById('track').options[document.getElementById('track').selectedIndex].text;
@@ -393,6 +404,14 @@ async function checkOverlap() {
 
     let resultHTML = selectionSummary;
     resultHTML += '<h3>📊 Overlap Analysis Results</h3>';
+
+    // Add permanent CS Track requirement note
+    resultHTML += `<div style="background:#fff3cd;color:#856404;padding:16px;border-radius:8px;margin:20px 0;border-left:6px solid #ffc107;">
+      <span style="font-size:1.3em;">⚠️</span> <strong>CS Track Requirement:</strong><br>
+      <div style="margin:5px 0;">Cannot use multiple MATH courses for lower level requirements without having at least 2 STAT courses (including 1 STAT4XX)</div>
+      <div style="margin-top:10px;color:#856404;font-size:0.9em;">Students can use 2 STAT courses to fulfill requirements instead of MATH courses, but must have at least 1 STAT4XX.</div>
+    </div>`;
+
     resultHTML += `<div style="margin-bottom:18px;font-size:1.1em;">
       <strong>Overlapping courses:</strong> ${totalOverlapCourses} <span style="color:#27ae60;font-size:1.2em;">✅</span> (<strong>Only 2 are allowed</strong>)
     </div>`;
@@ -462,6 +481,97 @@ async function checkOverlap() {
     document.getElementById('error').textContent = `❌ Error: ${err.message}`;
     console.error(err);
   }
+}
+
+function validateStatRequirements(overlaps) {
+  let hasStat4XX = false;
+  let mathCourseCount = 0;
+  let statCourseCount = 0;
+  let stat4XXCourses = [];
+  
+  overlaps.forEach(course => {
+    // Check for STAT4XX courses
+    if (/^STAT4\d{2}$/.test(course)) {
+      hasStat4XX = true;
+      stat4XXCourses.push(course);
+      statCourseCount++;
+    }
+    
+    // Count other STAT courses
+    if (/^STAT[123]\d{2}$/.test(course)) {
+      statCourseCount++;
+    }
+    
+    // Count MATH courses used for requirements
+    if (/^MATH\d{3}$/.test(course)) {
+      mathCourseCount++;
+    }
+  });
+  
+  // Must have at least 1 STAT4XX
+  if (!hasStat4XX) {
+    return {
+      valid: false,
+      message: "All tracks require at least 1 STAT4XX course"
+    };
+  }
+  
+  // Check if using too many MATH courses without enough STAT
+  if (mathCourseCount >= 2 && statCourseCount < 2) {
+    return {
+      valid: false, 
+      message: "Cannot use multiple MATH courses for lower level requirements without having at least 2 STAT courses (including 1 STAT4XX)"
+    };
+  }
+  
+  return { valid: true };
+}
+
+function validateCoreRequirements(overlaps) {
+  let hasStat4XX = false;
+  let mathRequirementCourses = [];
+  let statRequirementCourses = [];
+  
+  overlaps.forEach(course => {
+    // Check for STAT4XX courses
+    if (/^STAT4\d{2}$/.test(course)) {
+      hasStat4XX = true;
+      statRequirementCourses.push(course);
+    }
+    
+    // Count other STAT courses that can fulfill requirements
+    if (/^STAT[123]\d{2}$/.test(course)) {
+      statRequirementCourses.push(course);
+    }
+    
+    // Count MATH courses that fulfill core requirements
+    if (/^MATH(140|141|240|241|246|310|340|341|461)$/.test(course)) {
+      mathRequirementCourses.push(course);
+    }
+  });
+  
+  const warnings = [];
+  
+  // Must have at least 1 STAT4XX
+  if (!hasStat4XX) {
+    warnings.push("All tracks require at least 1 STAT4XX course");
+  }
+  
+  // Check if using multiple MATH courses without enough STAT courses
+  // Students need at least 2 STAT courses (including 1 STAT4XX) if using multiple MATH courses
+  if (mathRequirementCourses.length >= 2 && statRequirementCourses.length < 2) {
+    warnings.push("Cannot use multiple MATH courses for lower level requirements without having at least 2 STAT courses (including 1 STAT4XX)");
+  }
+  
+  // Special case: if only using MATH courses and no STAT4XX
+  if (mathRequirementCourses.length >= 1 && !hasStat4XX) {
+    warnings.push("Must have at least 1 STAT4XX course even when using MATH courses for other requirements");
+  }
+  
+  return {
+    valid: warnings.length === 0,
+    warnings: warnings
+  };
 }
 
 document.getElementById('overlapForm').addEventListener('submit', function(e) {
