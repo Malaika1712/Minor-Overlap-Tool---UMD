@@ -326,19 +326,19 @@ async function checkOverlap() {
 
           // Major requirements (collect once per unique requirement)
           if (o.majorCategory === "General Elective" && !majorRequirements.some(req => req.includes("General Elective"))) {
-            majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (major)</span>`);
+            majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies General Elective (CS major)</span>`);
           }
 
           if (o.majorCategory === "Track" && o.trackCategory && !majorRequirements.some(req => req.includes(o.trackCategory))) {
             if (o.trackCategory.toUpperCase() === 'MANDATORY') {
-              majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;font-weight:bold;">MANDATORY (major)</span>`);
+              majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;font-weight:bold;">MANDATORY (CS major)</span>`);
             } else {
-              majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies ${o.trackCategory} (major)</span>`);
+              majorRequirements.push(`<span style="background:#e21833;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies ${o.trackCategory} (CS major)</span>`);
             }
           }
 
           if (o.majorCategory === "Area" && o.area && !majorRequirements.some(req => req.includes(`Area ${o.area.areaNum}`))) {
-            majorRequirements.push(`<span style="background:#B9770E;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Area ${o.area.areaNum} (${o.area.areaName})</span>`);
+            majorRequirements.push(`<span style="background:#B9770E;color:#fff;padding:2px 8px;border-radius:6px;">Satisfies Area ${o.area.areaNum} (${o.area.areaName}) (CS major)</span>`);
           }
         });
 
