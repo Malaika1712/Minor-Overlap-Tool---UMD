@@ -347,7 +347,7 @@ async function checkOverlap() {
           (/^(MATH|STAT)[234]\d{2}$/.test(course) || course === "STAT4XX" || course === "MATH/STATXXX") &&
           !majorRequirements.some(req => req.includes("MATH and STAT"))
         ) {
-          majorRequirements.push(`<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH and STAT (major)</span>`);
+          majorRequirements.push(`<span style="background:#e21833;color:#fff;font-weight:bold;padding:2px 8px;border-radius:6px;">Satisfies MATH and STAT (CS major)</span>`);
         }
 
         // Remove duplicates and combine all requirements
@@ -405,12 +405,6 @@ async function checkOverlap() {
     let resultHTML = selectionSummary;
     resultHTML += '<h3>📊 Overlap Analysis Results</h3>';
 
-    // Add permanent CS Track requirement note
-    resultHTML += `<div style="background:#fff3cd;color:#856404;padding:16px;border-radius:8px;margin:20px 0;border-left:6px solid #ffc107;">
-      <span style="font-size:1.3em;">⚠️</span> <strong>CS Track Requirement:</strong><br>
-      <div style="margin:5px 0;">Cannot use multiple MATH courses for lower level requirements without having at least 2 STAT courses (including 1 STAT4XX)</div>
-      <div style="margin-top:10px;color:#856404;font-size:0.9em;">Students can use 2 STAT courses to fulfill requirements instead of MATH courses, but must have at least 1 STAT4XX.</div>
-    </div>`;
 
     resultHTML += `<div style="margin-bottom:18px;font-size:1.1em;">
       <strong>Overlapping courses:</strong> ${totalOverlapCourses} <span style="color:#27ae60;font-size:1.2em;">✅</span> (<strong>Only 2 are allowed</strong>)
