@@ -573,5 +573,13 @@ document.getElementById('overlapForm').addEventListener('submit', function(e) {
   checkOverlap();
 });
 
+// To show an error:
+document.getElementById('error').style.display = 'block';
+document.getElementById('error').textContent = 'Your error message';
+
+// To hide error:
+document.getElementById('error').style.display = 'none';
+document.getElementById('error').textContent = '';
+
 
 
