@@ -596,7 +596,7 @@ document.getElementById('overlapForm').addEventListener('submit', function(e) {
         font-size: 1.25em;
         text-align: center;
       ">
-        <img src="testudo.jpg" alt="Testudo" style="height:70px;margin-bottom:10px;">
+        <img src="testudo-MalaikaAsif.jpg" alt="Testudo" style="height:100px;margin-bottom:10px;">
         <br>
         <strong style="margin-left:10px;">Watch Out!</strong>
         <div style="margin-top:18px;">
