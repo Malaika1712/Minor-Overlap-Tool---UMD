@@ -600,7 +600,7 @@ document.getElementById('overlapForm').addEventListener('submit', function(e) {
         <br>
         <strong style="margin-left:10px;">Watch Out!</strong>
         <div style="margin-top:18px;">
-          Students on the <strong>Data Science</strong> or <strong>Machine Learning</strong> tracks are <strong>not eligible</strong> for the Data Science minor.
+          Students on the <strong>Data Science</strong> or <strong>Machine Learning</strong> tracks are <strong>not eligible</strong> for the Data Science minor. Please select a different minor.
         </div>
         <button id="closePopup" style="
           margin-top:24px;
@@ -642,7 +642,7 @@ document.getElementById('overlapForm').addEventListener('submit', function(e) {
         display:flex;
         align-items:center;
       ">
-        <img src="testudo.jpg" alt="Testudo" style="height:38px;margin-right:14px;">
+        <img src="testudo-MalaikaAsif.jpg" alt="Testudo" style="height:38px;margin-right:14px;">
         <span>
           <strong>Note:</strong> Data Science minor cannot be used for Upper Level Concentration (ULC).
         </span>
