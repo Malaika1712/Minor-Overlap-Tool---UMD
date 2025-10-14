@@ -360,10 +360,7 @@
       font-weight: bold;
     }
   </style>
-  <!-- Vanta.js and Three.js CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-</head>
+ 
 <body>
   <!-- Maryland Red Banner with CS Logo and Minor Overlap Checker -->
   <div class="red-banner">
@@ -437,6 +434,7 @@
           </div>
         </div>
         <button type="submit">🔍 Analyze Overlap</button>
+        <button id="resetBtn" type="button">Reset</button>
         <p style="color: #666; font-size: 0.9em; margin: 10px 0 0 0;">
           ⏱️ Analysis may take a few seconds to load all course data.
         </p>
@@ -447,9 +445,87 @@
       </div>
     </div>
   </div>
-  <!-- 3D background container -->
-<div id="vanta-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;"></div>
+<script src="script.js"></script>
 <script>
+  document.getElementById('overlapForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const trackFile = document.getElementById('track').value;
+    const minorFiles = Array.from(document.querySelectorAll('input[name="minors"]:checked')).map(cb => cb.value);
+
+    // Block analysis if ML/Data Science track with Data Science minor
+    if (
+      (trackFile === "ml_track.json" || trackFile === "data_science_track.json") &&
+      minorFiles.includes("Data Science.json")
+    ) {
+      // Show popup box with Testudo image
+      const popup = document.createElement('div');
+      popup.style.position = 'fixed';
+      popup.style.top = '50%';
+      popup.style.left = '50%';
+      popup.style.transform = 'translate(-50%, -50%)';
+      popup.style.background = '#fff';
+      popup.style.border = '2px solid #e21833';
+      popup.style.borderRadius = '12px';
+      popup.style.padding = '20px';
+      popup.style.zIndex = '1000';
+      popup.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+
+      const popupContent = document.createElement('div');
+      popupContent.style.display = 'flex';
+      popupContent.style.alignItems = 'center';
+      popupContent.style.fontSize = '1.1em';
+      popupContent.style.color = '#333';
+
+      const testudoImg = document.createElement('img');
+      testudoImg.src = 'testudo-MalaikaAsif.jpg';
+      testudoImg.alt = 'Testudo';
+      testudoImg.style.height = '50px';
+      testudoImg.style.marginRight = '12px';
+
+
+      popupContent.appendChild(testudoImg);
+      popupContent.appendChild(popupText);
+      popup.appendChild(popupContent);
+
+      document.body.appendChild(popup);
+
+      // Close popup on click
+      popup.addEventListener('click', function() {
+        document.body.removeChild(popup);
+      return;
+      });
+
+      // Block further analysis
+    }
+
+    // ...run your overlap analysis and display the table...
+
+    // After displaying the results table:
+    if (minorFiles.includes("Data Science.json")) {
+      const warningDiv = document.createElement('div');
+      warningDiv.innerHTML = `
+        <div style="
+          background:#fff3cd;
+          color:#856404;
+          padding:16px;
+          border-radius:8px;
+          margin:20px 0 0 0;
+          border-left:6px solid #ffc107;
+          font-size:1.1em;
+          display:flex;
+          align-items:center;
+        ">
+          <img src="testudo.jpg" alt="Testudo" style="height:38px;margin-right:14px;">
+          <span>
+            <strong>Note:</strong> Data Science minor cannot be used for Upper Level Concentration (ULC).
+          </span>
+        </div>
+      `;
+      const results = document.getElementById('results');
+      results.insertBefore(warningDiv, results.firstChild);
+    }
+  });
 </script>
 </body>
 </html>

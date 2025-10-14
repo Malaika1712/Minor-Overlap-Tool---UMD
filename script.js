@@ -570,16 +570,100 @@ function validateCoreRequirements(overlaps) {
 
 document.getElementById('overlapForm').addEventListener('submit', function(e) {
   e.preventDefault();
+
+  const trackFile = document.getElementById('track').value;
+  const minorFiles = Array.from(document.querySelectorAll('input[name="minors"]:checked')).map(cb => cb.value);
+
+  // Block analysis ONLY for ML/Data Science track + Data Science minor
+  if (
+    (trackFile === "ml_track.json" || trackFile === "data_science_track.json") &&
+    minorFiles.includes("Data Science.json")
+  ) {
+    // Show popup box with Testudo image
+    const popup = document.createElement('div');
+    popup.innerHTML = `
+      <div style="
+        position: fixed;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff3cd;
+        color: #856404;
+        padding: 32px 36px;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        border-left: 8px solid #ffc107;
+        z-index: 9999;
+        font-size: 1.25em;
+        text-align: center;
+      ">
+        <img src="testudo.jpg" alt="Testudo" style="height:70px;margin-bottom:10px;">
+        <br>
+        <strong style="margin-left:10px;">Watch Out!</strong>
+        <div style="margin-top:18px;">
+          Students on the <strong>Data Science</strong> or <strong>Machine Learning</strong> tracks are <strong>not eligible</strong> for the Data Science minor.
+        </div>
+        <button id="closePopup" style="
+          margin-top:24px;
+          background:#e21833;
+          color:#fff;
+          border:none;
+          border-radius:8px;
+          padding:10px 28px;
+          font-size:1em;
+          cursor:pointer;
+        ">OK</button>
+      </div>
+    `;
+    popup.id = "ds-warning-popup";
+    document.body.appendChild(popup);
+
+    document.getElementById('closePopup').onclick = function() {
+      document.body.removeChild(popup);
+    };
+
+    return;
+  }
+
+  // Run your actual overlap analysis and display the table
   checkOverlap();
+
+  // Show ULC warning if Data Science minor is selected (but DO NOT block table)
+  if (minorFiles.includes("Data Science.json")) {
+    const warningDiv = document.createElement('div');
+    warningDiv.innerHTML = `
+      <div style="
+        background:#fff3cd;
+        color:#856404;
+        padding:16px;
+        border-radius:8px;
+        margin:20px 0 0 0;
+        border-left:6px solid #ffc107;
+        font-size:1.1em;
+        display:flex;
+        align-items:center;
+      ">
+        <img src="testudo.jpg" alt="Testudo" style="height:38px;margin-right:14px;">
+        <span>
+          <strong>Note:</strong> Data Science minor cannot be used for Upper Level Concentration (ULC).
+        </span>
+      </div>
+    `;
+    const results = document.getElementById('results');
+    results.insertBefore(warningDiv, results.firstChild);
+  }
 });
 
-// To show an error:
-document.getElementById('error').style.display = 'block';
-document.getElementById('error').textContent = 'Your error message';
-
-// To hide error:
-document.getElementById('error').style.display = 'none';
-document.getElementById('error').textContent = '';
+document.getElementById('resetBtn').addEventListener('click', function() {
+  // Uncheck all minors
+  document.querySelectorAll('input[name="minors"]:checked').forEach(cb => cb.checked = false);
+  // Reset track selection
+  document.getElementById('track').selectedIndex = 0;
+  // Clear results and error messages
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('error').textContent = '';
+  document.getElementById('results-area').style.display = 'none';
+});
 
 
 
