@@ -462,7 +462,7 @@ async function checkOverlap() {
         <span style="font-size:1.3em;">❌</span> <span style="color:#e21833;">Not allowed:</span> The following courses overlap between selected minors:<br>`;
       overlappingPairs.forEach(pair => {
         overlapBox += `<div style="margin-top:8px;">
-          <span style="color:#ffd200;">${pair.courses.join(', ')}</span>
+          <span style="color:#008080;">${pair.courses.join(', ')}</span>
           <span style="color:#000;"><strong>between ${pair.minors[0]}</strong> and <strong>${pair.minors[1]}</strong></span>
         </div>`;
       });
