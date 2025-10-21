@@ -113,22 +113,49 @@ async function checkOverlap() {
     const hasQSEMinor = selectedMinors.includes('QSE');
 
     if (isQuantumTrack && hasQSEMinor) {
-      const warningHTML = `
-        <div style="background:#ffe6e6;color:#e21833;padding:20px;border-radius:8px;font-weight:bold;margin:20px 0;border-left:6px solid #e21833;text-align:center;">
-          <span style="font-size:2em;">⚠️</span><br>
-          <span style="font-size:1.5em;color:#e21833;">Not Possible</span><br>
-          <span style="font-size:1.1em;color:#000;margin-top:10px;display:block;">
-            Quantum Computing Track and QSE Minor cannot be selected together.<br>
-            Please watch your selections and choose a different combination.
-          </span>
+      // Show popup box with Testudo image for Quantum + QSE restriction
+      const popup = document.createElement('div');
+      popup.innerHTML = `
+        <div style="
+          position: fixed;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          background: #fff3cd;
+          color: #856404;
+          padding: 32px 36px;
+          border-radius: 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+          border-left: 8px solid #ffc107;
+          z-index: 9999;
+          font-size: 1.25em;
+          text-align: center;
+        ">
+          <img src="testudo-MalaikaAsif.jpg" alt="Testudo" style="height:100px;margin-bottom:10px;">
+          <br>
+          <strong style="margin-left:10px;">Watch Out!</strong>
+          <div style="margin-top:18px;">
+            Students on the <strong>Quantum Information</strong> track and the <strong>QSE</strong> minor cannot be selected together. Please choose a different combination.
+          </div>
+          <button id="closePopupQuantum" style="
+            margin-top:24px;
+            background:#e21833;
+            color:#fff;
+            border:none;
+            border-radius:8px;
+            padding:10px 28px;
+            font-size:1em;
+            cursor:pointer;
+          ">OK</button>
         </div>
       `;
-      
-      document.getElementById('results').innerHTML = warningHTML;
-      document.getElementById('results').style.display = 'block';
-      document.getElementById('results-area').style.display = 'block';
-      document.getElementById('error').textContent = '';
-      return; // Exit the function early
+      popup.id = "quantum-qse-popup";
+      document.body.appendChild(popup);
+
+      document.getElementById('closePopupQuantum').onclick = function() {
+        document.body.removeChild(popup);
+      };
+
+      return; // stop further analysis for this invalid combination
     }
 
     const areaCourseMap = {};
