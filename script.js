@@ -692,5 +692,20 @@ document.getElementById('resetBtn').addEventListener('click', function() {
   document.getElementById('results-area').style.display = 'none';
 });
 
+// direct insertion (no DOMContentLoaded)
+(function insertULCNote() {
+  const container = document.querySelector('#howto, #how-to, #howTo, .how-to, #howto-section');
+  if (!container) return;
+  if (document.getElementById('ulc-note-top')) return;
+  const note = document.createElement('div');
+  note.id = 'ulc-note-top';
+  note.innerHTML = `
+    <div style="background:#fff9e6;color:#333;padding:10px;border-radius:6px;margin:12px 0;font-size:0.95em;border-left:6px solid #ffc107;">
+      <strong>Note:</strong> ULC requirements for the CS major do <strong>NOT</strong> count towards overlapping credit counts.
+    </div>
+  `;
+  container.insertBefore(note, container.firstChild);
+})();
+
 
 
