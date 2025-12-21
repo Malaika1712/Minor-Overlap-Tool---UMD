@@ -113,13 +113,13 @@ async function checkOverlap() {
     const hasQSEMinor = selectedMinors.includes('QSE');
 
     if (isQuantumTrack && hasQSEMinor) {
-      // Show popup box with Testudo image for Quantum + QSE restriction
+      // Show popup box with bubble animation
       const popup = document.createElement('div');
       popup.innerHTML = `
         <div style="
           position: fixed;
           top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%) scale(0);
           background: #fff3cd;
           color: #856404;
           padding: 32px 36px;
@@ -129,6 +129,8 @@ async function checkOverlap() {
           z-index: 9999;
           font-size: 1.25em;
           text-align: center;
+          opacity: 0;
+          transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         ">
           <img src="testudo-MalaikaAsif.jpg" alt="Testudo" style="height:100px;margin-bottom:10px;">
           <br>
@@ -151,8 +153,18 @@ async function checkOverlap() {
       popup.id = "quantum-qse-popup";
       document.body.appendChild(popup);
 
+      // Trigger bubble animation
+      setTimeout(() => {
+        const popupDiv = popup.firstElementChild;
+        popupDiv.style.transform = 'translate(-50%, -50%) scale(1)';
+        popupDiv.style.opacity = '1';
+      }, 10);
+
       document.getElementById('closePopupQuantum').onclick = function() {
-        document.body.removeChild(popup);
+        const popupDiv = popup.firstElementChild;
+        popupDiv.style.transform = 'translate(-50%, -50%) scale(0)';
+        popupDiv.style.opacity = '0';
+        setTimeout(() => document.body.removeChild(popup), 300);
       };
 
       return; // stop further analysis for this invalid combination
